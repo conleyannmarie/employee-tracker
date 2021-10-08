@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "index.js"
+    "test": "jest",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,8 @@
     "express": "^4.17.1",
     "inquirer": "^8.2.0",
     "mysql2": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^27.2.5"
   }
 }
