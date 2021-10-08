@@ -1,0 +1,23 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conleyannmarie/employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conleyannmarie/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/conleyannmarie/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  }
+}
