@@ -25,6 +25,24 @@ const db = mysql.createConnection(
     console.log('Connected to the election database.')
   );
 
+
+// Get all 
+app.get('/api/', (req, res) => {
+  const sql = `SELECT * FROM `;
+
+  db.query(sql, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'success',
+      data: rows
+    });
+  });
+});
+
+
 //testing express server
 app.get('/', (req, res) => {
     res.json({
