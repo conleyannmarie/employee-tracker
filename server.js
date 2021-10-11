@@ -1,5 +1,6 @@
 //import express
 const express = require('express');
+const inquirer = require('inquirer');
 //import mysql
 const mysql = require('mysql2');
 //port designation
@@ -21,6 +22,15 @@ const db = mysql.createConnection(
     console.log('Connected to the store_employees database.')
   );
 
+  function startServer() {
+      inquirer.prompt({
+          message: 'What would you like to do?',
+          name; "start",
+          type: "list",
+          choices: ["View all employees", "view all Roles", "View all Departments"]
+      }
+      )
+  }
   // Get all employees
 app.get('/api/employees', (req, res) => {
   const sql = `SELECT employee.*, parties.name
