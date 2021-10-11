@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS employee, roles, department;
+DROP TABLE IF EXISTS employee, manager, roles, department;
 
 CREATE TABLE department (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,6 +14,12 @@ CREATE TABLE roles (
 
 )
 
+CREATE TABLE manager (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL
+)
+
 CREATE TABLE employee (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
@@ -21,5 +27,5 @@ CREATE TABLE employee (
   role_id INTEGER,
   manager_id INTEGER,
   CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
-  CONSTRAINT fk_employee FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+  CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES managers(first_name) ON DELETE SET NULL
 );

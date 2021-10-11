@@ -15,12 +15,19 @@ VALUES
 ('Accountant', 90000, 3),
 ('Legal Team Lead', 500000, 4);
 
+INSERT INTO manager (first_name, last_name)
+VALUES 
+('John', 'Doe'),
+('Ashley', 'Rodrigues'),
+('Malia', 'Brown'),
+
+
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
 ('John', 'Doe', 1, ),
 ('Mike', 'Chan', 2, 1),
 ('Ashley', 'Rodrigues', 3, ),
-('Kevin', 'Tupik', 4, 3)
+('Kevin', 'Tupik', 4, 2)
 ('Malia', 'Brown', 5, )
-('Sarah', 'Lourd', 6, 5)
+('Sarah', 'Lourd', 6, 3)
 ('Tom', 'Tanner', 7, )
