@@ -16,20 +16,28 @@ const db = mysql.createConnection(
       // Your MySQL username,
       user: 'root',
       // Your MySQL password
-      password: '',
+      password: 'earthconscious',
       database: 'store_employees'
     },
     console.log('Connected to the store_employees database.')
   );
 
   function startServer() {
+
       inquirer.prompt({
           message: 'What would you like to do?',
-          name; "start",
+          name: "start",
           type: "list",
           choices: ["View all employees", "view all Roles", "View all Departments"]
-      }
-      )
+      }).then(function (response) {
+          switch (response.start) {
+              case "View all employees":
+                let sql = 'Select * FROM employee';
+                  db.query(sql, function(err, rows)
+                  if (err) throw err:
+                  console.table(rows);
+          }
+      })
   }
   // Get all employees
 app.get('/api/employees', (req, res) => {
