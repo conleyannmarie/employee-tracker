@@ -33,14 +33,16 @@ function startServer() {
         "View all roles",
         "View all departments",
         "Add an employee",
+        "Add a role",
+        "Add a department",
+        "Update Employee role",
       ],
     })
     .then(function (response) {
       switch (response.start) {
         case "View all employees":
-          let sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+          let sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name
           FROM employee 
-          LEFT JOIN manager ON employee.manager_id = manager.id
           LEFT JOIN roles ON employee.role_id = roles.id 
           LEFT JOIN department ON employee.department_id = department.id`;
           db.query(sql, function (err, rows) {
@@ -115,22 +117,24 @@ app.delete("/api/employee/:id", (req, res) => {
   });
 });
 
-//Create a candidate
-app.post("/api/employee", ({ body }, res) => {
+//Create an employee
+app.post("/api/employee/:id", ({ body }, res) => {
   const errors = inputCheck(
     body,
     "first_name",
     "last_name",
-    "industry_connected"
+    "role_id",
+    "manager_id",
+    "department_id"
   );
   if (errors) {
     res.status(400).json({ error: errors });
     return;
   }
 
-  const sql = `INSERT INTO employee (first_name, last_name, industry_connected)
+  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id, department_id)
   VALUES (?, ?, ?)`;
-  const params = [body.first_name, body.last_name, body.industry_connected];
+  const params = [body.first_name, body.last_name, body.role_id, body.manager_id, body.department_id];
 
   db.query(sql, params, (err, result) => {
     if (err) {
@@ -144,34 +148,108 @@ app.post("/api/employee", ({ body }, res) => {
   });
 });
 
-app.get("/api/parties", (req, res) => {
-  const sql = `SELECT * FROM parties`;
-  db.query(sql, (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
+//add a department
+app.post("/api/department/:id", ({ body }, res) => {
+    const errors = inputCheck(
+      body,
+      "department_name"
+    );
+    if (errors) {
+      res.status(400).json({ error: errors });
       return;
     }
-    res.json({
-      message: "success",
-      data: rows,
+  
+    const sql = `INSERT INTO department (department_name)
+    VALUES (?)`;
+    const params = [body.department_name];
+  
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: body,
+      });
     });
   });
-});
 
-app.get("/api/party/:id", (req, res) => {
-  const sql = `SELECT * FROM parties WHERE id = ?`;
-  const params = [req.params.id];
-  db.query(sql, params, (err, row) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
+//add a role
+app.post("/api/roles/:id", ({ body }, res) => {
+    const errors = inputCheck(
+      body,
+      "title",
+      "salary",
+      "department_id"
+    );
+    if (errors) {
+      res.status(400).json({ error: errors });
       return;
     }
-    res.json({
-      message: "success",
-      data: row,
+  
+    const sql = `INSERT INTO roles (title, salary, department_id)
+    VALUES (?)`;
+    const params = [body.title, body.salary, body.department_id];
+  
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: body,
+      });
     });
   });
-});
+
+//update an employee
+
+app.put("/api/employee/:id", (req, res) => {
+    Employee.update(
+      {
+        text: req.body
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    ).then(Employee => {
+      res.json(Employee);
+    });
+    });
+
+
+// app.get("/api/parties", (req, res) => {
+//   const sql = `SELECT * FROM parties`;
+//   db.query(sql, (err, rows) => {
+//     if (err) {
+//       res.status(500).json({ error: err.message });
+//       return;
+//     }
+//     res.json({
+//       message: "success",
+//       data: rows,
+//     });
+//   });
+// });
+
+// app.get("/api/party/:id", (req, res) => {
+//   const sql = `SELECT * FROM parties WHERE id = ?`;
+//   const params = [req.params.id];
+//   db.query(sql, params, (err, row) => {
+//     if (err) {
+//       res.status(400).json({ error: err.message });
+//       return;
+//     }
+//     res.json({
+//       message: "success",
+//       data: row,
+//     });
+//   });
+// });
 
 //Default response for any other request (Not Found)
 app.use((req, res) => {
