@@ -72,7 +72,7 @@ function startServer() {
   }
   
   const viewEmployee = () => {
-      const empTable = 'Sh'
+      const empTable = 'SELECT * FROM employee'
     db.query(empTable, function (err, rows) {
       if (err) throw err;
       console.table(rows);
