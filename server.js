@@ -99,40 +99,26 @@ function startServer() {
   };
   
   const addEmployee = () => {
-    db.query(roleQuery, (err, results) => {
+      const emQuery = `SELECT * FROM employee`;
+    db.query(emQuery, (err, results) => {
         if (err) throw err;
   
         inquirer.prompt([
             {
                 name: 'fName',
-                type: 'input',
-                message: addEmployeeQuestions[0]
+                type: 'input'
   
             },
             {
                 name: 'lName',
-                type: 'input',
-                message: addEmployeeQuestions[1]
+                type: 'input'
+            
             },
             {
                 name: 'role',
                 type: 'list',
-                choices: function () {
-                    let choiceArray = results[0].map(choice => choice.title);
-                    return choiceArray;
-                },
-                message: addEmployeeQuestions[2]
-  
-            },
-            {
-                name: 'manager',
-                type: 'list',
-                choices: function () {
-                    let choiceArray = results[1].map(choice => choice.full_name);
-                    return choiceArray;
-                },
-                message: addEmployeeQuestions[3]
-  
+                choices: ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Account Manager', 'Accountant', 'Legal Team Lead']
+                
             }
         ]).then((answer) => {
               db.query(
@@ -142,8 +128,50 @@ function startServer() {
             )
             startServer();
         })
-    })
-  }
+    });
+
+    const addRoles = () => {
+        const rolesQuery = `SELECT * FROM roles`;
+      db.query(rolesQuery, (err, results) => {
+          if (err) throw err;
+    
+          inquirer.prompt([
+              {
+                  name: 'Title',
+                  type: 'input'
+    
+              },
+              {
+                  name: 'Salary',
+                  type: 'input'
+              
+              }
+          ]).then((answer) => {
+                db.query(
+                  `INSERT INTO roles (title, salary) VALUES(?, ?)`, [answer.title, answer.salary]
+              )
+              startServer();
+          })
+      });
+
+      const addDepartment = () => {
+        const rolesQuery = `SELECT * FROM department`;
+      db.query(rolesQuery, (err, results) => {
+          if (err) throw err;
+    
+          inquirer.prompt([
+              {
+                  name: 'Department_Name',
+                  type: 'input'
+    
+              }
+          ]).then((answer) => {
+                db.query(
+                  `INSERT INTO department (department_name) VALUES(?, ?)`, [answer.department_name]
+              )
+              startServer();
+          })
+      });
   
   //Default response for any other request (Not Found)
   app.use((req, res) => {
@@ -153,5 +181,7 @@ function startServer() {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-  
-  startServer();
+  }
+}
+  }
+startServer();
