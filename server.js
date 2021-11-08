@@ -177,7 +177,7 @@ function startServer() {
                         if (err) throw err;
                         console.log("Employee has been added");
     
-                        viewEmps();
+                        viewEmployee();
                         
                       });
                     });
@@ -198,7 +198,7 @@ function startServer() {
           let sqlQuery = `INSERT INTO department SET ?`;
           db.query(sqlQuery, { department_name: response.dept }, (err, rows) => {
             if (err) throw err;
-            viewDept();
+            viewDepartment();
             
           });
           
@@ -274,7 +274,7 @@ function startServer() {
           let sqlUpdate = `UPDATE employee SET role_id = ? WHERE id = ?`;
           db.query(sqlUpdate, [response.role, response.id], (err, rows) => {
             if (err) throw err;
-            viewEmps();
+            viewEmployee();
             
           });
         });
@@ -298,7 +298,7 @@ function startServer() {
           let sqlUpdate = `UPDATE employee SET manager_id = ? WHERE id = ?`;
           db.query(sqlUpdate, [response.manager, response.id], (err, rows) => {
             if (err) throw err;
-            viewEmps();
+            viewEmployee();
             
           });
         });
